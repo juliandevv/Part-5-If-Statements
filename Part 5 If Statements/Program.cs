@@ -54,7 +54,7 @@ namespace Part_5_If_Statements
             Random generator = new Random();
             Console.WriteLine("Welcome to the bank of Blorb!\nPlease enter your name");
             string name = Console.ReadLine();
-            int balance = generator.Next(100, 150);
+            double balance = Convert.ToDouble(generator.Next(100, 150));
             Console.WriteLine($"Welcome {name}!");
             Console.WriteLine("You will be charged a fee of 0.75$ for this banking session");
             bool exit = false;
@@ -114,14 +114,15 @@ namespace Part_5_If_Statements
                     }
                 }
 
-                Thread.Sleep(100);
+                Thread.Sleep(1000);
                 Console.WriteLine("\nBoB Receipt");
                 string bar = new string('=', 22);
                 Console.WriteLine(bar);
                 Console.WriteLine($"Original balance: {balance}$");
                 Console.WriteLine($"Deposit amount: {amount}$");
                 Console.WriteLine($"Service Charge: {0.75}$");
-                Console.WriteLine($"Final balance: {balance + amount - 0.75}$");
+                balance = (balance - 0.75) + amount;
+                Console.WriteLine($"Final balance: {balance}$");
                 Console.WriteLine();
                 Console.WriteLine("Press ENTER to return home");
                 Console.ReadLine();
@@ -147,14 +148,15 @@ namespace Part_5_If_Statements
                     }
                 }
 
-                Thread.Sleep(100);
+                Thread.Sleep(1000);
                 Console.WriteLine("\nBoB Receipt");
                 string bar = new string('=', 22);
                 Console.WriteLine(bar);
                 Console.WriteLine($"Original balance: {balance}$");
                 Console.WriteLine($"Deposit amount: {amount}$");
                 Console.WriteLine($"Service Charge: {0.75}$");
-                Console.WriteLine($"Final balance: {balance - amount - 0.75}$");
+                balance = (balance - 0.75) - amount;
+                Console.WriteLine($"Final balance: {balance}$");
                 Console.WriteLine();
                 Console.WriteLine("Press ENTER to return home");
                 Console.ReadLine();
@@ -163,20 +165,21 @@ namespace Part_5_If_Statements
             void payment()
             {
                 Console.WriteLine($"Your current balance is {balance}$ Blorbian Dollars");
-                int amountDue = generator.Next(0, balance);
+                int amountDue = generator.Next(0, Convert.ToInt32(balance));
                 Console.WriteLine($"You owe: {amountDue}$");
                 Console.WriteLine("Would you like to pay this now?");
                 Thread.Sleep(3000);
                 Console.WriteLine("Just kidding! You don't have a choice.");
 
-                Thread.Sleep(100);
+                Thread.Sleep(1000);
                 Console.WriteLine("\nBoB Receipt");
                 string bar = new string('=', 22);
                 Console.WriteLine(bar);
                 Console.WriteLine($"Original balance: {balance}$");
                 Console.WriteLine($"Payment amount: {amountDue}$");
                 Console.WriteLine($"Service Charge: {0.75}$");
-                Console.WriteLine($"Final balance: {balance - amountDue - 0.75}$");
+                balance = (balance - 0.75) - amountDue;
+                Console.WriteLine($"Final balance: {balance}$");
                 Console.WriteLine();
                 Console.WriteLine("Press ENTER to return home");
                 Console.ReadLine();
@@ -185,13 +188,14 @@ namespace Part_5_If_Statements
             void balanceCheck()
             {
                 Console.WriteLine($"Your current balance is {balance}$ Blorbian Dollars");
-                Thread.Sleep(100);
+                Thread.Sleep(1000);
                 Console.WriteLine("\nBoB Receipt");
                 string bar = new string('=', 22);
                 Console.WriteLine(bar);
                 Console.WriteLine($"Original balance: {balance}$");
                 Console.WriteLine($"Service Charge: {0.75}$");
-                Console.WriteLine($"Final balance: {balance - 0.75}$");
+                balance = balance - 0.75;
+                Console.WriteLine($"Final balance: {balance}$");
                 Console.WriteLine();
                 Console.WriteLine("Press ENTER to return home");
                 Console.ReadLine();
@@ -200,7 +204,8 @@ namespace Part_5_If_Statements
 
         static void parkingCost()
         {
-            Console.WriteLine("Welcome to Sam's parking garage!");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\nWelcome to Sam's parking garage!");
             Console.WriteLine("How many minutes have you been encroaching on Sam's property?");
             double parkingTime;
             double hours;
@@ -219,29 +224,50 @@ namespace Part_5_If_Statements
                     Console.WriteLine("Not a valid input!");
                 }
             }
+
             hours = Math.Ceiling(Convert.ToDouble(parkingTime/60));
             Console.WriteLine($"For convenience's sake I'll round that up to {hours} hours");
-            amountDue = (hours - (hours - 1)) * 4;
-            amountDue += (hours - 1) * 2;
-            if (amountDue > 20)
-            {
-                amountDue = 20;
-            }
+            double days = Math.Floor(hours / 24);
+            hours = hours - (days * 24) -1;
+            if (hours < 0) { hours = 0; }
+            amountDue = 4;
+            amountDue += days * 20;
+            amountDue += (hours) * 2;
+            
             Console.WriteLine($"That means you owe me {amountDue.ToString("C")}");
             Console.WriteLine("Thanks for using Sam's garage! Come again soon!");
-            Thread.Sleep(2000);
+            Thread.Sleep(2500);
         }
 
         static void hurricaneSeverity()
         {
-            Console.WriteLine("Enter the category of a hurricane to find out it's wind speed!");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("\nEnter the category of a hurricane to find out it's wind speed!");
 
             string response = Console.ReadLine();
 
             switch (response.ToUpper())
             {
-                case "1":
+                case "1": case"CATEGORY 1": case "CATEGORY1":
+                    Console.WriteLine("\nCategory 1 hurricane windspeeds:\n74-95mph\n64-82kt\n119-153km/h");
                     break;
+
+                case "2": case"CATEGORY 2": case "CATEGORY2":
+                    Console.WriteLine("\nCategory 2 hurricane windspeeds:\n96-110mph\n83-95kt\n154-177km/h");
+                    break;
+
+                case "3": case"CATEGORY 3": case "CATEGORY3":
+                    Console.WriteLine("\nCategory 3 hurricane windspeeds:\n111-130mph\n96-113kt\n178-209km/h");
+                    break;
+
+                case "4": case"CATEGORY 4": case "CATEGORY4":
+                    Console.WriteLine("\nCategory 4 hurricane windspeeds:\n131-155mph\n114-135kt\n210-249km/h");
+                    break;
+
+                case "5": case"CATEGORY 5": case "CATEGORY5":
+                    Console.WriteLine("\nCategory 5 hurricane windspeeds:\n>155mph\n>135kt\n>249km/h");
+                    break;
+
                 default:
                     Console.WriteLine("That's not a hurricane category!");
                     break;
